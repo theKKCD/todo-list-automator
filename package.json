@@ -1,0 +1,10 @@
+{
+  "name": "university-to-do-list-automator",
+  "description": "",
+  "version": "0.1.0",
+  "dependencies": {},
+  "devDependencies": {
+    "serverless-dotenv-plugin": "^3.0.0",
+    "serverless-python-requirements": "^5.1.0"
+  }
+}

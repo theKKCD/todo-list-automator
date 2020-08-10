@@ -1,0 +1,35 @@
+# Based on https://github.com/epetousis/up-webhook-ingester/blob/master/serverless.yml
+# by Evan Petousis
+service:
+  name: university-to-do-list-automator
+
+provider:
+  name: aws
+  region: ap-southeast-2
+  stage: ${opt:stage, 'dev'}
+
+plugins:
+  - serverless-python-requirements
+  - serverless-dotenv-plugin
+package:
+  individually: true
+  exclude:
+    - lambda_handler.py
+    - .git/**
+    - __pycache__/**
+
+functions:
+  todoistAutomator:
+    handler: main.main
+    runtime: python3.7
+    memorySize: 128
+    timeout: 12
+    events:
+      - schedule: cron(0 22 ? * SUN-THU *)
+      
+    environment:
+      TODOIST_API_TOKEN: ${env:TODOIST_API_TOKEN}
+
+custom:
+  pythonRequirements:
+    slim: true
