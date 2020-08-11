@@ -69,7 +69,7 @@ def Task(subject, time, weeks=[True for _ in range(12)], task_type='Lecture', du
 
 
 def main(*args, **kwargs):
-    from name_funcs import oosd_lecture
+    from .name_funcs import oosd_lecture
     api.sync()
 
     # Input Data Here

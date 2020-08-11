@@ -13,14 +13,15 @@ plugins:
   - serverless-dotenv-plugin
 package:
   individually: true
-  exclude:
-    - lambda_handler.py
-    - .git/**
-    - __pycache__/**
+  exclude :
+    - ./**
+  include:
+    - src/*.py
+    - '!src/__pycache__/**'
 
 functions:
   todoistAutomator:
-    handler: main.main
+    handler: src.main.main
     runtime: python3.7
     memorySize: 128
     timeout: 12
