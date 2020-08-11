@@ -8,13 +8,11 @@ from typing import List
 from enum import Enum
 
 TODOIST_API_TOKEN = environ['TODOIST_API_TOKEN']
+TIMEZONE_NAME = environ['TIMEZONE_NAME']
 
-api = TodoistAPI(TODOIST_API_TOKEN, cache='/tmp/todoist_cache')
-api.sync()
+api = TodoistAPI(TODOIST_API_TOKEN, cache='./tmp/todoist_cache')
 
-# Set up your timezone here
-timezone_name = 'Australia/Melbourne'
-tz = dateutil.tz.gettz(timezone_name)
+tz = dateutil.tz.gettz(TIMEZONE_NAME)
 today = datetime.now(tz=tz) # Can override this for testing
 # today = datetime(2020, 8, 3, tzinfo=tz)
 
@@ -22,18 +20,17 @@ today = datetime.now(tz=tz) # Can override this for testing
 semester_dates = {
     'start': datetime(2020, 8, 3, tzinfo=tz), # 2020, August 3 (Monday)
     'end': datetime(2020, 11, 1, tzinfo=tz), # 2020, November 1 (Sunday)
-    'break': {
-        # Dates are inclusive
+    'break': { # Dates are inclusive
         'start': datetime(2020, 10, 5, tzinfo=tz), # 2020 October 5 (Monday)
         'end': datetime(2020, 10, 11, tzinfo=tz) # 2020 October 11 (Sunday)
     }
 }
 
-# Compute the week of the semester
-# Returns 0 if not in the semester
+# Compute the week of the semester, returns 0 if outside the semester
 def get_week_number(today=today):
     # If not during the semester or during midsem break
-    if (not (semester_dates['start'] <= today <= semester_dates['end']) or (semester_dates['break']['start'] <= today <= semester_dates['break']['end'])):
+    if (not (semester_dates['start'] <= today <= semester_dates['end']) \
+        or (semester_dates['break']['start'] <= today <= semester_dates['break']['end'])):
         return 0
     week_number = (today - semester_dates['start']).days // 7 + 1
     if (today >= semester_dates['break']['start']):
@@ -70,8 +67,11 @@ def Task(subject, time, weeks=[True for _ in range(12)], task_type='Lecture', du
         'name_factory': name_factory
     }
 
-from name_funcs import oosd_lecture
+
 def main(*args, **kwargs):
+    from name_funcs import oosd_lecture
+    api.sync()
+
     # Input Data Here
     elen20005 = Subject(2241095310)
     swen20003 = Subject(2241095301)
@@ -109,6 +109,10 @@ def main(*args, **kwargs):
     }
 
     week_number = get_week_number(today)
+    if week_number == 0:
+        return {
+            "message": "Not in semester 2 2020, No tasks added."
+        }
 
     today_weekday = Weekday(today.strftime("%A"))
     tasks_to_add = tasks_by_day[today_weekday]
@@ -116,7 +120,7 @@ def main(*args, **kwargs):
     added_tasks = []
 
     for task in tasks_to_add:
-        if (not task['weeks'][week_number]):
+        if (not task.get('weeks', (False for _ in range(12)))[week_number]):
             continue
         
         task_name = (task.get('name_factory') or (lambda _,today: f'{task.get("type", "Class")}, {today.strftime("%a %d %B")}'))(week_number, today)
@@ -127,7 +131,7 @@ def main(*args, **kwargs):
             'auto_parse_labels': True,
             'due': {
                 'string': f"{task.get('due', 'Today')} at {task.get('time', '12pm')}",
-                "timezone": timezone_name,
+                "timezone": TIMEZONE_NAME,
                 "is_recurring": False,
                 "lang": "en"
             }

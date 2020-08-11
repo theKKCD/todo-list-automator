@@ -33,10 +33,10 @@ def oosd_lecture(week_number, today):
 if __name__ == "__main__":
     from datetime import datetime, timezone, timedelta
     import dateutil.tz
-    from main import semester_dates, get_week_number
+    from os import environ
 
-    timezone_name = 'Australia/Melbourne'
-    tz = dateutil.tz.gettz(timezone_name)
+    from main import semester_dates, get_week_number, tz
+
     today = datetime.now(tz=tz) # Can override this for testing
     week_number = get_week_number(today)
 

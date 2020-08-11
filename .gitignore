@@ -2,6 +2,9 @@
 # Replace with your own as per README.md
 .env
 
+# Temp directory used as Todoist cache
+tmp/ 
+
 # https://github.com/github/gitignore/blob/master/Global/macOS.gitignore
 # General
 .DS_Store
