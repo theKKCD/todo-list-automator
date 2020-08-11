@@ -4,7 +4,7 @@ Runs on AWS lambda. Deploy with Serverless (`brew install serverless`) and AWS c
 
 ### Build and Deployment
 
-* In `serverless.yml`, adjust your region and cron rulle to suit your needs.
+* In `serverless.yml`, adjust your region and cron rule to suit your needs.
 * Create a `.env` file and add the following values
 
 ```
