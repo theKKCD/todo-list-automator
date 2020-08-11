@@ -4,10 +4,15 @@ Runs on AWS lambda. Deploy with Serverless (`brew install serverless`) and AWS c
 
 ### Build and Deployment
 
-1. In `serverless.yml`, adjust your region and cron rulle to suit your needs.
-2. Create a `.env` file and add `TODOIST_API_TOKEN=...` (replace the ... with
-your own token)
-3. Then, `sls deploy` to push to AWS Lambda.
+* In `serverless.yml`, adjust your region and cron rulle to suit your needs.
+* Create a `.env` file and add the following values
+
+```
+TODOIST_API_TOKEN=...
+TIMEZONE_NAME=Australia/Melbourne
+```
+
+* Then, `sls deploy` to push to AWS Lambda.
 
 ### Testing
 
