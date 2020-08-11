@@ -1,38 +1,34 @@
 def oosd_lecture(week_number, today):
     lectures = [
-        'Subject Introduction',
+        'Subject Introduction', #1
         'Java ‐ A Quick Tour',
-        'Classes and Objects 1',
+        'Classes and Objects 1', #2
         'Classes and Objects 2',
-        'Classes and Objects 3',
+        'Classes and Objects 3', #3
         'Arrays and Strings',
-        'Input and Output',
+        'Input and Output', #4
         'Software Tools/Bagel',
-        'Inheritance I',
+        'Inheritance I', #5
         'Inheritance II',
-        'Interfaces',
+        'Interfaces', #6
         'Revision',
-        'Mid-Semester Test',
+        'Mid-Semester Test', #7
         'Class Diagrams',
-        'Generics',
+        'Generics', #8
         'Collections and Maps',
-        'Exceptions',
+        'Exceptions', #9
         'Design Patterns 1'
-        'Design Patterns 2',
+        'Design Patterns 2', #10
         'Software Testing and Design',
-        'Asynchronous Programing',
+        'Asynchronous Programing', #11
         'Advanced Java Concepts',
-        'Revision',
+        'Revision', #12
         'Wrapup - Exam'
     ]
     idx: int = (week_number-1)*2
     if (int(today.strftime("%w")) not in [0,1,5,6]):
         idx += 1
-    lname = lectures[idx]
-    if not lname:
-        return ''
-    else:
-        return f'Lecture {idx+1} - {lname}'
+    return f'Lecture {idx+1} - {lectures[idx]}'
 
 if __name__ == "__main__":
     from datetime import datetime, timezone, timedelta
