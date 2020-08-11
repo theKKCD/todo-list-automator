@@ -1,0 +1,7 @@
+#TODO: Add documentation
+
+start: 2020-08-03   # 2020, August 3 (Monday)
+end:   2020-11-01   # 2020, November 1 (Sunday)
+break:
+  start: 2020-10-05 # 2020, October 5 (Monday)
+  end:   2020-10-11 # 2020, October 11 (Sunday) 

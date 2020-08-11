@@ -1,41 +1,22 @@
-from os import environ, name
-from todoist.api import TodoistAPI
-from datetime import datetime, timezone, timedelta
+import os
+from datetime import date, datetime, time, tzinfo
 import dateutil.tz
 
-import copy
-from typing import List
 from enum import Enum
 
-TODOIST_API_TOKEN = environ['TODOIST_API_TOKEN']
-TIMEZONE_NAME = environ['TIMEZONE_NAME']
+from todoist.api import TodoistAPI
 
-api = TodoistAPI(TODOIST_API_TOKEN, cache='./tmp/todoist_cache')
+from .semester import Semester
 
-tz = dateutil.tz.gettz(TIMEZONE_NAME)
-today = datetime.now(tz=tz) # Can override this for testing
-# today = datetime(2020, 8, 3, tzinfo=tz)
+# environment variables
+TODOIST_API_TOKEN: str = os.environ['TODOIST_API_TOKEN']
+TIMEZONE_NAME: str = os.environ['TIMEZONE_NAME']
+DATA_LOCATION: str = os.environ['DATA_LOCATION']
 
-# Teaching weeks go here
-semester_dates = {
-    'start': datetime(2020, 8, 3, tzinfo=tz), # 2020, August 3 (Monday)
-    'end': datetime(2020, 11, 1, tzinfo=tz), # 2020, November 1 (Sunday)
-    'break': { # Dates are inclusive
-        'start': datetime(2020, 10, 5, tzinfo=tz), # 2020 October 5 (Monday)
-        'end': datetime(2020, 10, 11, tzinfo=tz) # 2020 October 11 (Sunday)
-    }
-}
+api: TodoistAPI = TodoistAPI(TODOIST_API_TOKEN, cache='./tmp/todoist_cache')
 
-# Compute the week of the semester, returns 0 if outside the semester
-def get_week_number(today=today):
-    # If not during the semester or during midsem break
-    if (not (semester_dates['start'] <= today <= semester_dates['end']) \
-        or (semester_dates['break']['start'] <= today <= semester_dates['break']['end'])):
-        return 0
-    week_number = (today - semester_dates['start']).days // 7 + 1
-    if (today >= semester_dates['break']['start']):
-        week_number -= 1
-    return week_number
+timezone: tzinfo = dateutil.tz.gettz(TIMEZONE_NAME) or dateutil.tz.UTC
+today: datetime = datetime.now(tz=timezone) # Can override this for testing
 
 class Weekday(Enum):
     Monday = 'Monday'
@@ -71,6 +52,8 @@ def Task(subject, time, weeks=[True for _ in range(12)], task_type='Lecture', du
 def main(*args, **kwargs):
     from .name_funcs import oosd_lecture
     api.sync()
+
+    semester: Semester = Semester.from_yaml(os.path.join(DATA_LOCATION, 'semester.yml'), timezone)
 
     # Input Data Here
     elen20005 = Subject(2241095310)
@@ -108,18 +91,15 @@ def main(*args, **kwargs):
         Weekday.Sunday: []
     }
 
-    week_number = get_week_number(today)
+    week_number = semester.get_week_number(today)
     if week_number == 0:
         return {
-            "message": "Not in semester 2 2020, No tasks added."
+            "message": "Not in semester. No tasks added."
         }
-
-    today_weekday = Weekday(today.strftime("%A"))
-    tasks_to_add = tasks_by_day[today_weekday]
 
     added_tasks = []
 
-    for task in tasks_to_add:
+    for task in tasks_by_day[Weekday(today.strftime("%A"))]:
         if (not task.get('weeks', (False for _ in range(12)))[week_number]):
             continue
         
@@ -142,7 +122,7 @@ def main(*args, **kwargs):
         print(f"Added ID {added_task.data['id']} {added_task.data['content']}")
 
     return {
-        "today": today_weekday.name,
+        "today": Weekday(today.strftime("%A")).name,
         "added_tasks": str(added_tasks)
     }
 
