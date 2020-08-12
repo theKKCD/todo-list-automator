@@ -56,7 +56,7 @@ def main(*args, **kwargs):
                 }
             }
 
-        task_name: str = 'test!'+task.get_name()
+        task_name: str = task.get_name()
         task_added = api.items.add( task_name, **api_kwargs )
 
         added_tasks[task.subject.code].append(f"'{task_name}' due {task.get_due()}")

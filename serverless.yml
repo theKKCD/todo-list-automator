@@ -27,7 +27,7 @@ functions:
     memorySize: 128
     timeout: 12
     events:
-      - schedule: cron(0 22 ? * * *)
+      - schedule: cron(0 22 ? * SUN-SAT *)
       
     environment:
       TODOIST_API_TOKEN: ${env:TODOIST_API_TOKEN}

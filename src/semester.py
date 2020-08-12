@@ -6,8 +6,7 @@ import yaml
 
 class Semester:
     """Stores details about a specific semester in the University year.
-    All dates given are inclusive (i.e. Starts should be Mondays, and ends should be Sundays).
-    """
+    All dates given are inclusive (i.e. Starts should be Mondays, and ends should be Sundays)."""
     def __init__(self, sem_start: datetime, sem_end: datetime, break_start: datetime, break_end: datetime) -> None:
         self.start: datetime = sem_start
         self.end: datetime = sem_end
@@ -25,7 +24,7 @@ class Semester:
     @classmethod
     def from_yaml(cls, semester_yml_location: str, tzinfo: tzinfo) -> Semester:
         """Reads information from a YML file of the format (YYYY-MM-DD)
-        ```
+        ```txt
         start: 2020-08-03
         end:   2020-11-01
         break:
@@ -46,9 +45,7 @@ class Semester:
     
     def get_current_week(self, today: datetime) -> int:
         """Returns the current 1-indexed week number as an integer.
-        If not in a semester, returns -1.
-        If during midsem break, returns 0.
-        """
+        If not in a semester, returns -1. If during midsem break, returns 0."""
         if (today < self.start or today > self.end):
             return -1 # Not in a teaching week.
         if (self.in_midsem_break(today)):
@@ -58,7 +55,7 @@ class Semester:
         return current_week
     
     def in_midsem_break(self, today: datetime) -> bool:
-        """Returns whether or not the given day is in the midsem break"""
+        """Returns whether or not the given day falls in the midsem break of this semester."""
         return self.break_start <= today <= self.break_end
 
 if __name__ == "__main__":
