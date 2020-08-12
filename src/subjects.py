@@ -51,7 +51,7 @@ class Task:
         self.__exclude_weeks: bool = exclude_weeks
     
     def __repr__(self):
-        string: str = f'Task: {self.subject.code} \'{self.__task_name}\' due {self.get_due()}'
+        string: str = f'Task: {self.subject.code} \'{self.get_name()}\' due {self.get_due()}'
         if self.__weeks:
             string += f' ({"not in" if self.__exclude_weeks else "in"} weeks {self.__weeks})'
         return f'<{string}>'
@@ -72,7 +72,7 @@ class Task:
         return current_week not in self.__weeks
     
     @classmethod
-    def from_yml_data(cls, yml_data_task: dict, subjects: Dict[str, Subject]):
+    def from_yml_data(cls, yml_data_task: dict, subjects: Dict[str, Subject], generators: Dict[str, Callable[[int, datetime], str]]):
         """A task has the following form:
         ```yml
         - subject:        #(string. subject code) [REQUIRED]
@@ -82,19 +82,35 @@ class Task:
           weeks:          #(List[int]. The weeks in which the task should/shoudln't be added)
           exclude_weeks:  #(bool. given weeks are excluded if true)
           priority:       #(int. 1 is lowest, 4 is highest)
-        #   task_gen_list:  #(string. identifier of `name_list` used as  generator)
+          name_generator: #(string. identifier of  generator)
         ```"""
         yml_data_task['subject'] = subjects[ yml_data_task['subject'].lower() ]
+        if yml_data_task.get('name_generator'):
+            yml_data_task['name_func'] = generators[yml_data_task['name_generator']]
+            del yml_data_task['name_generator']
         return cls(**yml_data_task)
 
 def read_yml_data(data_yml_location: str, semester: Semester) -> Tuple[Dict[str, Subject], Dict[str, List[Task]]]:
     with open(data_yml_location, 'r') as f:
         yml_data: dict = yaml.safe_load(f)
         subject_data: list = yml_data['subjects']
-        task_data: dict[str, List] = yml_data['tasks']
+        task_data: Dict[str, List] = yml_data['tasks']
+        
+        generator_data: Union[Dict[str, Dict], None] = yml_data.get('task_name_generators')
+        generators: Dict[str, Callable[[int, datetime], str]] = {}
+        if generator_data:
+            for (generator_name, info) in generator_data.items():
+                def func(current_week, today): 
+                    idx: int = (current_week-1) \
+                            * (len(info.get('days_of_week', '1'))) \
+                            + [day.lower() for day in info.get('days_of_week')] \
+                                .index(today.strftime("%A").lower())
+                    return f"{info.get('prefix','')}{idx+1 if info.get('num_after_prefix') else ''} - {info['list'][idx]}{today.strftime(', %a %d %B') if info.get('use_date') else ''}"
+                generators[generator_name] = func
+
         subjects: Dict[str, Subject] = Subject.dict_from_yml_data(subject_data, semester)
         tasks: Dict[str, List[Task]]  = dict(
-            (day_name.lower(),  [ Task.from_yml_data(task, subjects) for task in task_list ])
+            (day_name.lower(),  [ Task.from_yml_data(task, subjects, generators) for task in task_list ])
             for day_name, task_list in task_data.items()
         )
         return (subjects, tasks)

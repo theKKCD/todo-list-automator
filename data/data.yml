@@ -30,13 +30,13 @@ subjects:
 #   weeks:          (List[int]. The weeks in which the task should/shoudln't be added)
 #   exclude_weeks:  (bool. given weeks are excluded if true)
 #   priority:       (int. 1 is lowest, 4 is highest)
-#   task_gen_list:  (string. identifier of `name_list` used as  generator)
+#   name_generator: (string. identifier of `name_list` used as  generator)
 
 tasks:
   monday:
     - subject: swen20003
-      name: Lecture #! TODO: ADD GENERATOR
       time: 11:00am
+      name_generator: oosd_lecture
 
     - subject: mast20026
       name: Prerecorded Lecture
@@ -86,8 +86,8 @@ tasks:
       exclude_weeks: true
 
     - subject: swen20003
-      name: Lecture #! TODO: ADD GENERATOR
       time: 2:15pm
+      name_generator: oosd_lecture
 
   thursday:
     - subject: mast20026
@@ -118,3 +118,37 @@ tasks:
 
   sunday: []
     # -
+
+task_name_generators:
+  oosd_lecture:
+    prefix: 'Lecture '
+    num_after_prefix: true
+    use_date: false
+    days_of_week:
+      - monday
+      - wednesday
+    list: # List of ALL weeks
+      - 'Subject Introduction' #1
+      - 'Java ‐ A Quick Tour'
+      - 'Classes and Objects 1' #2
+      - 'Classes and Objects 2'
+      - 'Classes and Objects 3' #3
+      - 'Arrays and Strings'
+      - 'Input and Output' #4
+      - 'Software Tools/Bagel'
+      - 'Inheritance I' #5
+      - 'Inheritance II'
+      - 'Interfaces' #6
+      - 'Revision'
+      - 'Mid-Semester Test' #7
+      - 'Class Diagrams'
+      - 'Generics' #8
+      - 'Collections and Maps'
+      - 'Exceptions' #9
+      - 'Design Patterns 1'
+      - 'Design Patterns 2' #10
+      - 'Software Testing and Design'
+      - 'Asynchronous Programing' #11
+      - 'Advanced Java Concepts'
+      - 'Revision' #12
+      - 'Wrapup - Exam'

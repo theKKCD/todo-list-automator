@@ -18,7 +18,6 @@ DATA_LOCATION: str = os.environ['DATA_LOCATION']
 api: TodoistAPI = TodoistAPI(TODOIST_API_TOKEN, cache='./tmp/todoist_cache')
 
 def main(*args, **kwargs):
-    # from .name_funcs import oosd_lecture
     api.sync()
 
     timezone: tzinfo
@@ -63,11 +62,11 @@ def main(*args, **kwargs):
         added_tasks[task.subject.code].append(f"'{task_name}' due {task.get_due()}")
         print(f'  Added! ID={str(task_added.data["id"]).strip()}')
         
-
-    api.commit()
+    response = api.commit()
     return {
         "today": today.strftime("%A"),
-        "added_tasks": added_tasks
+        "added_tasks": added_tasks,
+        "api_response": response
     }
 
 if __name__ == "__main__":

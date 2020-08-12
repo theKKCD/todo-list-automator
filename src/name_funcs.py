@@ -17,7 +17,7 @@ def oosd_lecture(week_number, today):
         'Generics', #8
         'Collections and Maps',
         'Exceptions', #9
-        'Design Patterns 1'
+        'Design Patterns 1',
         'Design Patterns 2', #10
         'Software Testing and Design',
         'Asynchronous Programing', #11
