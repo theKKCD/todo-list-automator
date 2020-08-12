@@ -10,13 +10,15 @@ Runs on AWS lambda. Deploy with Serverless (`brew install serverless`) and AWS c
 ```
 TODOIST_API_TOKEN=...
 TIMEZONE_NAME=Australia/Melbourne
+DATA_LOCATION=./data
 ```
 
+* You need data files which contain information about the tasks and projects you will be adding.
 * Then, `sls deploy` to push to AWS Lambda.
 
 ### Testing
 
-After setting up environment variables as above,
+After setting up environment variables as above, and filling out the data files,
 ```
 sls invoke local -f todoistAutomator
 ```

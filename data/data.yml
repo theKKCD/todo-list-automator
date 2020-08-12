@@ -1,0 +1,120 @@
+
+# A 'subject' represents a Project in Todoist. Needs the following form:
+# - code: (string) // unique id used to match tasks with projects
+#   name: (string) // human-readable string, used in logs
+#   project_id: (int) // from Todoist API
+
+subjects:
+  - code: elen20005
+    name: FoEN
+    project_id: 2241095310
+  
+  - code: swen20003
+    name: Obj. Oriented Software Design
+    project_id: 2241095301
+  
+  - code: mast20026
+    name: Real Analysis
+    project_id: 2241095303
+  
+  - code: ling20010
+    name: Language, Society & Culture
+    project_id: 2241095316
+
+# A map of tasks per week of day
+# A task has the following form:
+# - subject:        (string. subject code) [REQUIRED]
+#   name:           (string. if empty, generator is used)
+#   time:           (string. when is this due? e.g. 2:15pm)
+#   due_day:        (string. human readable e.g. 'Next Monday')
+#   weeks:          (List[int]. The weeks in which the task should/shoudln't be added)
+#   exclude_weeks:  (bool. given weeks are excluded if true)
+#   priority:       (int. 1 is lowest, 4 is highest)
+#   task_gen_list:  (string. identifier of `name_list` used as  generator)
+
+tasks:
+  monday:
+    - subject: swen20003
+      name: Lecture #! TODO: ADD GENERATOR
+      time: 11:00am
+
+    - subject: mast20026
+      name: Prerecorded Lecture
+      time: 2:15pm
+
+    - subject: ling20010
+      name: Live Lecture
+      time: 2:15pm
+    
+    - subject: elen20005
+      name: Live Concepts/Intuition Lecture
+      time: 3:15pm
+  
+  tuesday:
+    - subject: mast20026
+      name: Tutorial A
+      time: 10:00am
+
+    - subject: elen20005
+      name: Prerecorded Lecture
+      time: 11:00am
+
+    - subject: elen20005
+      name: Quiz
+      time: 3:15pm
+      weeks: [5,7,9,10,12]
+      
+  wednesday:
+    - subject: mast20026
+      name: Prerecorded Lecture
+      time: 9:00am
+
+    - subject: elen20005
+      name: Prerecorded Lecture
+      time: 11:00am
+
+    - subject: ling20010
+      name: Tutorial
+      time: 11:00am
+      weeks: [1]
+      exclude_weeks: true
+
+    - subject: elen20005
+      name: Workshop
+      time: 3:15pm
+      weeks: [1, 2]
+      exclude_weeks: true
+
+    - subject: swen20003
+      name: Lecture #! TODO: ADD GENERATOR
+      time: 2:15pm
+
+  thursday:
+    - subject: mast20026
+      name: Tutorial B
+      time: 10:00am
+
+    - subject: ling20010
+      name: Live Lecture
+      time: 12:00pm
+
+    - subject: swen20003
+      name: Practical
+      time: 1:00pm
+      weeks: [1]
+      exclude_weeks: True
+
+  friday:
+    - subject: mast20026
+      name: Prerecorded Lecture
+      time: 10:00am
+
+    - subject: elen20005
+      name: Live Examples Lecture
+      time: 2:15pm
+
+  saturday: []
+    # -
+
+  sunday: []
+    # -

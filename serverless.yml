@@ -16,6 +16,7 @@ package:
   exclude :
     - ./**
   include:
+    - data/**
     - src/*.py
     - '!src/__pycache__/**'
 
