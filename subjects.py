@@ -3,8 +3,8 @@ from typing import Dict, List, Callable, Tuple, Union
 
 from datetime import datetime, tzinfo
 
-from .helpers import *
-from .semester import Semester
+from helpers import *
+from semester import Semester
 
 import yaml
 

@@ -59,7 +59,7 @@ class Semester:
         return self.break_start <= today <= self.break_end
 
 if __name__ == "__main__":
-    from .helpers import *
+    from helpers import *
     timezone, today = get_timezone_details()
     print(
         Semester.from_yaml('./data/semester.yml', timezone)

@@ -6,16 +6,16 @@ import os
 
 from todoist.api import TodoistAPI
 
-from .semester import Semester
-from .subjects import Subject, Task, read_yml_data
-from .helpers  import get_timezone_details
+from semester import Semester
+from subjects import Subject, Task, read_yml_data
+from helpers  import get_timezone_details
 
 # environment variables
 TODOIST_API_TOKEN: str = os.environ['TODOIST_API_TOKEN']
 TIMEZONE_NAME: str = os.environ['TIMEZONE_NAME']
 DATA_LOCATION: str = os.environ['DATA_LOCATION']
 
-api: TodoistAPI = TodoistAPI(TODOIST_API_TOKEN, cache='./tmp/todoist_cache')
+api: TodoistAPI = TodoistAPI(TODOIST_API_TOKEN, cache='/tmp/todoist_cache')
 
 def main(*args, **kwargs):
     api.sync()
