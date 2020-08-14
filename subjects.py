@@ -172,13 +172,7 @@ def read_yml_data(data_yml_location: str, semester: Semester) -> Tuple[Dict[str,
         generators: Dict[str, Callable[[int, datetime], str]] = {}
         if generator_data:
             for (generator_name, info) in generator_data.items():
-                def func(current_week, today): 
-                    idx: int = (current_week-1) \
-                            * (len(info.get('days_of_week', '1'))) \
-                            + [day.lower() for day in info.get('days_of_week')] \
-                                .index(today.strftime("%A").lower())
-                    return f"{info.get('prefix','')}{idx+1 if info.get('num_after_prefix') else ''} - {info['list'][idx]}{today.strftime(', %a %d %B') if info.get('use_date') else ''}"
-                generators[generator_name] = func
+                generators[generator_name] = name_factory_factory(info)
 
         subjects: Dict[str, Subject] = Subject.dict_from_yml_data(subject_data, semester)
         tasks: Dict[str, List[Task]]  = dict(
@@ -187,3 +181,10 @@ def read_yml_data(data_yml_location: str, semester: Semester) -> Tuple[Dict[str,
         )
         return (subjects, tasks)
 
+def name_factory_factory(info: Dict) -> Callable[[int, datetime], str]:
+    def func(current_week: int, today: datetime) -> str: 
+        idx: int = (current_week-1) \
+                * (len(info.get('days_of_week', '1'))) \
+                + [day.lower() for day in info.get('days_of_week')].index(today.strftime("%A").lower())
+        return f"{info.get('prefix','').strip()}{' '+str(idx+1) if info.get('num_after_prefix') else ''} - {info['list'][idx]}{today.strftime(', %a %d %B') if info.get('use_date') else ''}"
+    return func

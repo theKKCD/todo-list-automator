@@ -16,9 +16,8 @@ TODOIST_API_TOKEN: str = os.environ['TODOIST_API_TOKEN']
 TIMEZONE_NAME: str = os.environ['TIMEZONE_NAME']
 DATA_LOCATION: str = os.environ['DATA_LOCATION']
 
-api: TodoistAPI = TodoistAPI(TODOIST_API_TOKEN, cache='/tmp/todoist_cache')
-
 def main(*args, **kwargs):
+    api: TodoistAPI = TodoistAPI(TODOIST_API_TOKEN, cache='/tmp/todoist_cache')
     api.sync()
 
     timezone: tzinfo
