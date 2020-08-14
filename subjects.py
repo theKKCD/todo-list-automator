@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import Dict, List, Callable, Tuple, Union
 
 from datetime import datetime, tzinfo
+from collections import defaultdict
 
 from helpers import *
 from semester import Semester
@@ -39,7 +40,8 @@ class Subject:
 
 class Task:  
     def __init__(self, subject: Subject, time: str, due_day: str ='', name: str = '', weeks: List[int] = [],
-                 exclude_weeks: bool = True, priority: int = 1, name_func: Callable[[int, datetime], str] = None) -> None:
+                 exclude_weeks: bool = True, priority: int = 1, name_func: Callable[[int, datetime], str] = None,
+                 subtasks: List[Task] = [], section_id: int = 0) -> None:
         self.subject: Subject = subject
         self.__due: Tuple[str, str] = (due_day or 'Today', time)
         self.priority: int = max(min(priority, 4), 1)
@@ -49,6 +51,14 @@ class Task:
         # accessed through is_in_week() -> bool
         self.__weeks: List[int] = weeks
         self.__exclude_weeks: bool = exclude_weeks
+        # subtasks
+        self.parent: Task = None
+        self.subtasks: List[Task] = subtasks
+        for subtask in subtasks:
+            assert not subtask.parent
+            subtask.parent = self
+        self.api_id: str = ''
+        self.__section_id: str = section_id
     
     def __repr__(self):
         string: str = f'Task: {self.subject.code} \'{self.get_name()}\' due {self.get_due()}'
@@ -56,12 +66,19 @@ class Task:
             string += f' ({"not in" if self.__exclude_weeks else "in"} weeks {self.__weeks})'
         return f'<{string}>'
     
+    @property
+    def is_subtask(self) -> bool:
+        return (self.parent is not None)
+
     def get_name(self) -> str:
         today: datetime = get_timezone_details()[1]
         if self.__name_func is not None:
             current_week = self.subject.semester.get_current_week(today)
             return self.__name_func(current_week, today)
-        return f'{self.__task_name or "Class"}, {today.strftime("%a %d %B")}'
+        name: str = self.__task_name or "Class"
+        if self.__due[0] == 'Today':
+            name += f', {today.strftime("%a %d %B")}'
+        return name
     
     def get_due(self) -> str:
         return ' '.join(self.__due)
@@ -71,6 +88,11 @@ class Task:
             return current_week in self.__weeks
         return current_week not in self.__weeks
     
+    def add_subtask(self, subtask: Task) -> None:
+        assert not subtask.parent
+        subtask.parent = self
+        self.subtasks.append(subtask)
+
     @classmethod
     def from_yml_data(cls, yml_data_task: dict, subjects: Dict[str, Subject], generators: Dict[str, Callable[[int, datetime], str]]):
         """A task has the following form:
@@ -83,12 +105,62 @@ class Task:
           exclude_weeks:  #(bool. given weeks are excluded if true)
           priority:       #(int. 1 is lowest, 4 is highest)
           name_generator: #(string. identifier of  generator)
+          subtasks:       #(list of tasks, subject not required)
+            - name: ...
+              ...
         ```"""
-        yml_data_task['subject'] = subjects[ yml_data_task['subject'].lower() ]
-        if yml_data_task.get('name_generator'):
-            yml_data_task['name_func'] = generators[yml_data_task['name_generator']]
+        if not isinstance(yml_data_task['subject'], Subject):
+            yml_data_task['subject'] = subjects[ yml_data_task['subject'].lower() ]
+        # name_generator: str
+        if name_generator := yml_data_task.get('name_generator'):
+            yml_data_task['name_func'] = generators[name_generator]
             del yml_data_task['name_generator']
+        # subtasks: List[dict]
+        if subtasks := yml_data_task.get('subtasks'):
+            yml_data_task['subtasks'] = []
+            for subtask in subtasks:
+                subtask['subject'] = yml_data_task['subject']
+                yml_data_task['subtasks'].append(cls.from_yml_data(subtask, subjects, generators))
+            # yml_data_task['subtasks'] = [ cls.from_yml_data(subtask.update({'subject': yml_data_task['subject']}), subjects, generators) for subtask in subtasks ] # List[Task]
         return cls(**yml_data_task)
+
+    def api_add_task(self: Task, api: TodoistAPI, current_week: int, timezone_name: str) -> defaultdict[str, List[str]]:
+        """Adds tasks to the API, and recursively adds the subtasks of a given task."""
+        added_tasks: defaultdict[str, List[str]] = defaultdict(list)
+
+        if not self.is_in_week(current_week): return
+
+        api_kwargs: Dict = {
+            'priority': self.priority,
+            'auto_parse_labels': True,
+            'due': {
+                'string': self.get_due(),
+                'timezone': timezone_name,
+                'is_recurring': False,
+                'lang': 'en'
+            }
+        }
+        # Note, we only add subtasks to existing tasks
+        if self.is_subtask:
+            api_kwargs['parent_id'] = self.parent.api_id
+        else:
+            api_kwargs['project_id'] = self.subject.project_id
+        
+        if self.__section_id > 0:
+            api_kwargs['section_id'] = self.__section_id
+        
+        task_name: str = self.get_name()
+        task_added = api.items.add( task_name, **api_kwargs )
+        self.api_id = str(task_added.data["id"])
+        added_tasks[self.subject.code].append(f"'{task_name}' due {self.get_due()}")
+
+        # if self.subtasks != []
+        for subtask in self.subtasks:
+            subtasks: defaultdict[str, List[str]] = subtask.api_add_task(api, current_week, timezone_name)
+            for subject_code, tasks in subtasks.items():
+                added_tasks[subject_code] += tasks
+
+        return added_tasks
 
 def read_yml_data(data_yml_location: str, semester: Semester) -> Tuple[Dict[str, Subject], Dict[str, List[Task]]]:
     with open(data_yml_location, 'r') as f:

@@ -3,6 +3,7 @@ from typing import Dict, List
 from datetime import datetime, tzinfo
 
 import os
+from collections import defaultdict
 
 from todoist.api import TodoistAPI
 
@@ -36,37 +37,17 @@ def main(*args, **kwargs):
         print(message)
         return { "message": message }
 
-    added_tasks: Dict[str, List[str]] = dict( (subject.code, []) for subject in subjects.values() )
-
+    added_tasks: defaultdict[str, List[str]] = defaultdict(list)
     for task in tasks[today.strftime("%A").lower()]:
-        print(f'\nAttempting to add {task}...')
-        if not task.is_in_week(current_week):
-            print('  Skipped task, not in current week.')
-            continue
-
-        api_kwargs = {
-                'project_id':   task.subject.project_id,
-                'priority':     task.priority,
-                'auto_parse_labels': True,
-                'due': {
-                    'string': task.get_due(),
-                    'timezone': TIMEZONE_NAME,
-                    'is_recurring': False,
-                    'lang': 'en'
-                }
-            }
-
-        task_name: str = task.get_name()
-        task_added = api.items.add( task_name, **api_kwargs )
-
-        added_tasks[task.subject.code].append(f"'{task_name}' due {task.get_due()}")
-        print(f'  Added! ID={str(task_added.data["id"]).strip()}')
+        task_dict = task.api_add_task(api, current_week, TIMEZONE_NAME)
+        for subject_code, tasks in task_dict.items():
+            added_tasks[subject_code] += tasks
         
     response = api.commit()
     return {
         "today": today.strftime("%A"),
         "added_tasks": added_tasks,
-        "api_response": response
+        # "api_response": response
     }
 
 if __name__ == "__main__":

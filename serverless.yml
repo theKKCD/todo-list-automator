@@ -24,7 +24,7 @@ package:
 functions:
   todoistAutomator:
     handler: main.main
-    runtime: python3.7
+    runtime: python3.8
     memorySize: 128
     timeout: 12
     events:

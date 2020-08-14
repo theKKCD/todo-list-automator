@@ -113,6 +113,20 @@ tasks:
       name: Live Examples Lecture
       time: 2:15pm
 
+    - subject: ling20010
+      name: Readings
+      due_day: Wednesday
+      time: 11:00am
+      section_id: 15830167
+      priority: 2
+      subtasks:
+        - name: Monday Readings
+          due_day: Monday
+          time: 2:15pm
+        - name: Wednesday Readings
+          due_day: Wednesday
+          time: 11:00am
+
   saturday: []
     # -
 
