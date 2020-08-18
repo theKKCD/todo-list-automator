@@ -51,7 +51,8 @@ class Semester:
         if (self.in_midsem_break(today)):
             return 0
         current_week: int = (today - self.start).days // 7 + 1 # 1-indexed
-        if (today >= self.break_start): current_week -= 1
+        if (today >= self.break_start): 
+            current_week -= 1
         return current_week
     
     def in_midsem_break(self, today: datetime) -> bool:

@@ -40,7 +40,7 @@ class Subject:
 
 class Task:  
     def __init__(self, subject: Subject, time: str, due_day: str ='', name: str = '', weeks: List[int] = [],
-                 exclude_weeks: bool = True, priority: int = 1, name_func: Callable[[int, datetime], str] = None,
+                 exclude_weeks: bool = False, priority: int = 1, name_func: Callable[[int, datetime], str] = None,
                  subtasks: List[Task] = [], section_id: int = 0) -> None:
         self.subject: Subject = subject
         self.__due: Tuple[str, str] = (due_day or 'Today', time)
@@ -84,9 +84,12 @@ class Task:
         return ' '.join(self.__due)
 
     def is_in_week(self, current_week: int) -> bool:
-        if not self.__exclude_weeks:
-            return current_week in self.__weeks
-        return current_week not in self.__weeks
+        if not self.__weeks:
+            return True
+        in_weeks = int(current_week) in self.__weeks
+        if self.__exclude_weeks:
+            return not in_weeks
+        return in_weeks
     
     def add_subtask(self, subtask: Task) -> None:
         assert not subtask.parent
@@ -128,7 +131,8 @@ class Task:
         """Adds tasks to the API, and recursively adds the subtasks of a given task."""
         added_tasks: defaultdict[str, List[str]] = defaultdict(list)
 
-        if not self.is_in_week(current_week): return
+        if not self.is_in_week(current_week):
+            return
 
         api_kwargs: Dict = {
             'priority': self.priority,
@@ -179,6 +183,7 @@ def read_yml_data(data_yml_location: str, semester: Semester) -> Tuple[Dict[str,
             (day_name.lower(),  [ Task.from_yml_data(task, subjects, generators) for task in task_list ])
             for day_name, task_list in task_data.items()
         )
+        print(tasks['tuesday'])
         return (subjects, tasks)
 
 def name_factory_factory(info: Dict) -> Callable[[int, datetime], str]:

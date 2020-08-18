@@ -31,6 +31,7 @@ def main(*args, **kwargs):
     subjects, tasks = read_yml_data(os.path.join(DATA_LOCATION, 'data.yml'), semester)
 
     current_week: int = semester.get_current_week(today)
+    print("Current week:", current_week)
     if current_week == 0:
         message: str = "Not in semester. No tasks added."
         print(message)
@@ -38,9 +39,9 @@ def main(*args, **kwargs):
 
     added_tasks: defaultdict[str, List[str]] = defaultdict(list)
     for task in tasks[today.strftime("%A").lower()]:
-        task_dict = task.api_add_task(api, current_week, TIMEZONE_NAME)
-        for subject_code, tasks in task_dict.items():
-            added_tasks[subject_code] += tasks
+        if task_dict := task.api_add_task(api, current_week, TIMEZONE_NAME):
+            for subject_code, tasks in task_dict.items():
+                added_tasks[subject_code] += tasks
         
     response = api.commit()
     return {
