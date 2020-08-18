@@ -40,14 +40,14 @@ class Subject:
 
 class Task:  
     def __init__(self, subject: Subject, time: str, due_day: str ='', name: str = '', weeks: List[int] = [],
-                 exclude_weeks: bool = False, priority: int = 1, name_func: Callable[[int, datetime], str] = None,
+                 exclude_weeks: bool = False, priority: int = 1, name_func: Callable[[int, datetime, str], str] = None,
                  subtasks: List[Task] = [], section_id: int = 0) -> None:
         self.subject: Subject = subject
         self.__due: Tuple[str, str] = (due_day or 'Today', time)
         self.priority: int = max(min(priority, 4), 1)
         # accessed through get_name() -> str
         self.__task_name: str = name
-        self.__name_func: Union[Callable[[int, datetime], str], None] = name_func
+        self.__name_func: Union[Callable[[int, datetime, str], str], None] = name_func
         # accessed through is_in_week() -> bool
         self.__weeks: List[int] = weeks
         self.__exclude_weeks: bool = exclude_weeks
@@ -74,7 +74,7 @@ class Task:
         today: datetime = get_timezone_details()[1]
         if self.__name_func is not None:
             current_week = self.subject.semester.get_current_week(today)
-            return self.__name_func(current_week, today)
+            return self.__name_func(current_week, today, self.__due[0].replace('Today', ''))
         name: str = self.__task_name or "Class"
         if self.__due[0] == 'Today':
             name += f', {today.strftime("%a %d %B")}'
@@ -173,7 +173,7 @@ def read_yml_data(data_yml_location: str, semester: Semester) -> Tuple[Dict[str,
         task_data: Dict[str, List] = yml_data['tasks']
         
         generator_data: Union[Dict[str, Dict], None] = yml_data.get('task_name_generators')
-        generators: Dict[str, Callable[[int, datetime], str]] = {}
+        generators: Dict[str, Callable[[int, datetime, str], str]] = {}
         if generator_data:
             for (generator_name, info) in generator_data.items():
                 generators[generator_name] = name_factory_factory(info)
@@ -186,10 +186,11 @@ def read_yml_data(data_yml_location: str, semester: Semester) -> Tuple[Dict[str,
         print(tasks['tuesday'])
         return (subjects, tasks)
 
-def name_factory_factory(info: Dict) -> Callable[[int, datetime], str]:
-    def func(current_week: int, today: datetime) -> str: 
+def name_factory_factory(info: Dict) -> Callable[[int, datetime, str], str]:
+    def func(current_week: int, today: datetime, due_day: str = '') -> str: 
+        due_day = due_day.lower() or today.strftime("%A").lower()
         idx: int = (current_week-1) \
                 * (len(info.get('days_of_week', '1'))) \
-                + [day.lower() for day in info.get('days_of_week')].index(today.strftime("%A").lower())
+                + [day.lower() for day in info.get('days_of_week')].index(due_day)
         return f"{info.get('prefix','').strip()}{' '+str(idx+1) if info.get('num_after_prefix') else ''} - {info['list'][idx]}{today.strftime(', %a %d %B') if info.get('use_date') else ''}"
     return func

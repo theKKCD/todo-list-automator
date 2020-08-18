@@ -35,9 +35,6 @@ subjects:
 
 tasks:
   monday:
-    - subject: swen20003
-      time: 11:00am
-      name_generator: oosd_lecture
 
     - subject: mast20026
       name: Prerecorded Lecture
@@ -50,6 +47,11 @@ tasks:
     - subject: elen20005
       name: Live Concepts/Intuition Lecture
       time: 3:15pm
+
+    - subject: swen20003
+      due_day: Wednesday
+      time: 2:15pm
+      name_generator: oosd_lecture
   
   tuesday:
     - subject: mast20026
@@ -66,7 +68,7 @@ tasks:
       name: Quiz
       time: 3:15pm
       weeks: [5,7,9,10,12]
-      
+
   wednesday:
     - subject: mast20026
       name: Prerecorded Lecture
@@ -90,9 +92,6 @@ tasks:
       weeks: [1, 2]
       exclude_weeks: true
 
-    - subject: swen20003
-      time: 2:15pm
-      name_generator: oosd_lecture
 
   thursday:
     - subject: mast20026
@@ -131,6 +130,11 @@ tasks:
         - name: Wednesday Readings
           due_day: Wednesday
           time: 11:00am
+    
+    - subject: swen20003
+      time: 11:00am
+      due_day: Monday
+      name_generator: oosd_lecture
 
   saturday: []
     # -
@@ -184,7 +188,7 @@ task_name_generators:
       - 'Java ‐ A Quick Tour'
       - 'Classes and Objects 1' #2
       - 'Classes and Objects 2'
-      - 'Classes and Objects 3' #3
+      - 'Classes and Objects 3' #3 sunday
       - 'Arrays and Strings'
       - 'Input and Output' #4
       - 'Software Tools/Bagel'

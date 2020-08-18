@@ -23,6 +23,8 @@ def main(*args, **kwargs):
     timezone: tzinfo
     today: datetime
     timezone, today = get_timezone_details()
+    # for debugging:
+    # today = datetime(2020, 8, 14, tzinfo=timezone) 
 
     semester: Semester = Semester.from_yaml(os.path.join(DATA_LOCATION, 'semester.yml'), timezone)
 
