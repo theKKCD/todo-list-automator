@@ -59,6 +59,8 @@ tasks:
     - subject: elen20005
       name: Prerecorded Lecture
       time: 11:00am
+      weeks: [3]
+      exclude_weeks: true
 
     - subject: elen20005
       name: Quiz
@@ -73,6 +75,8 @@ tasks:
     - subject: elen20005
       name: Prerecorded Lecture
       time: 11:00am
+      weeks: [3]
+      exclude_weeks: true
 
     - subject: ling20010
       name: Tutorial
