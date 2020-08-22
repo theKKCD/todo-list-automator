@@ -35,7 +35,6 @@ subjects:
 
 tasks:
   monday:
-
     - subject: mast20026
       name: Prerecorded Lecture
       time: 2:15pm
@@ -108,6 +107,20 @@ tasks:
       weeks: [1]
       exclude_weeks: True
 
+    - subject: swen20003
+      time: 11:00am
+      due_day: Monday
+      name_generator: oosd_lecture
+      weeks: [12]
+      exclude_weeks: True
+
+    - subject: swen20003
+      time: 2:15pm
+      due_day: Wednesday
+      name_generator: oosd_lecture
+      weeks: [12]
+      exclude_weeks: True
+
   friday:
     - subject: mast20026
       name: Prerecorded Lecture
@@ -119,22 +132,18 @@ tasks:
 
     - subject: ling20010
       name: Readings
-      due_day: Wednesday
-      time: 11:00am
+      due_day: Thursday
+      time: 12:00pm
       section_id: 15830167
       priority: 2
       subtasks:
         - name: Monday Readings
           due_day: Monday
           time: 2:15pm
-        - name: Wednesday Readings
-          due_day: Wednesday
-          time: 11:00am
+        - name: Thursday Readings
+          due_day: Thursday
+          time: 12:00pm
     
-    - subject: swen20003
-      time: 11:00am
-      due_day: Monday
-      name_generator: oosd_lecture
 
   saturday: []
     # -

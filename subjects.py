@@ -187,10 +187,15 @@ def read_yml_data(data_yml_location: str, semester: Semester) -> Tuple[Dict[str,
         return (subjects, tasks)
 
 def name_factory_factory(info: Dict) -> Callable[[int, datetime, str], str]:
-    def func(current_week: int, today: datetime, due_day: str = '') -> str: 
-        due_day = due_day.lower() or today.strftime("%A").lower()
-        idx: int = (current_week-1) \
+    def func(current_week: int, today: datetime, due_day: str = '') -> str:
+        due_day: str = due_day.lower() or today.strftime("%A").lower()
+        due_next_week: bool = int(datetime.strptime(due_day.title(), '%A').strftime('%w')) <= int(today.strftime('%w').lower())
+        try:
+            incr: int = [day.lower() for day in info.get('days_of_week')].index(due_day)
+        except ValueError:
+            incr: int = 0
+        idx: int = (current_week - 1 + int(due_next_week)) \
                 * (len(info.get('days_of_week', '1'))) \
-                + [day.lower() for day in info.get('days_of_week')].index(due_day)
+                + incr
         return f"{info.get('prefix','').strip()}{' '+str(idx+1) if info.get('num_after_prefix') else ''} - {info['list'][idx]}{today.strftime(', %a %d %B') if info.get('use_date') else ''}"
     return func

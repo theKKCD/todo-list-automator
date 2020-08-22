@@ -6,5 +6,6 @@ from typing import Tuple
 
 def get_timezone_details() -> Tuple[tzinfo, datetime]:
     timezone: tzinfo = dateutil.tz.gettz(environ.get('TIMEZONE_NAME')) or dateutil.tz.UTC
-    today: datetime = datetime.now(tz=timezone) # datetime(2020, 8, 17, tzinfo=timezone) 
+    today: datetime = datetime.now(tz=timezone) 
+    # today: datetime = datetime(2020, 8, 20, tzinfo=timezone) 
     return timezone, today
