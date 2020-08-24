@@ -46,11 +46,6 @@ tasks:
     - subject: elen20005
       name: Live Concepts/Intuition Lecture
       time: 3:15pm
-
-    - subject: swen20003
-      due_day: Wednesday
-      time: 2:15pm
-      name_generator: oosd_lecture
   
   tuesday:
     - subject: mast20026
