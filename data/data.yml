@@ -17,10 +17,6 @@ subjects:
     name: Real Analysis
     project_id: 2241095303
   
-  - code: ling20010
-    name: Language, Society & Culture
-    project_id: 2241095316
-
 # A map of tasks per week of day
 # A task has the following form:
 # - subject:        (string. subject code) [REQUIRED]
@@ -39,10 +35,6 @@ tasks:
       name: Prerecorded Lecture
       time: 2:15pm
 
-    - subject: ling20010
-      time: 2:15pm
-      name_generator: lsc_lecture
-    
     - subject: elen20005
       name: Live Concepts/Intuition Lecture
       time: 3:15pm
@@ -74,12 +66,6 @@ tasks:
       weeks: [3]
       exclude_weeks: true
 
-    - subject: ling20010
-      name: Tutorial
-      time: 11:00am
-      weeks: [1]
-      exclude_weeks: true
-
     - subject: elen20005
       name: Workshop
       time: 3:15pm
@@ -91,10 +77,6 @@ tasks:
     - subject: mast20026
       name: Tutorial B
       time: 10:00am
-
-    - subject: ling20010
-      time: 12:00pm
-      name_generator: lsc_lecture
 
     - subject: swen20003
       name: Practical
@@ -124,20 +106,6 @@ tasks:
     - subject: elen20005
       name: Live Examples Lecture
       time: 2:15pm
-
-    - subject: ling20010
-      name: Readings
-      due_day: Thursday
-      time: 12:00pm
-      section_id: 15830167
-      priority: 2
-      subtasks:
-        - name: Monday Readings
-          due_day: Monday
-          time: 2:15pm
-        - name: Thursday Readings
-          due_day: Thursday
-          time: 12:00pm
     
 
   saturday: []
@@ -147,39 +115,6 @@ tasks:
     # -
 
 task_name_generators:
-  lsc_lecture:
-    prefix: 'Live Lecture '
-    num_after_prefix: false
-    use_date: true
-    days_of_week:
-      - monday
-      - thursday
-    list:
-      - 'Introduction to the subject (BK)' #1
-      - 'Linguistic variation (BK)'
-      - 'Applied Sociolinguistics – Slx in the wider world (BK)' #2
-      - 'Applied Sociolinguistics: Language in the media (JC)'
-      - 'Variables: Social class (JC)' #3
-      - 'Social networks and communities of practice (JC)'
-      - 'Age and generational change (BK)' #4
-      - 'Gender (JC)'
-      - 'Ethnicity (JC)' #5
-      - 'Language change (BK)'
-      - 'Language obsolescence (BK)' #6
-      - 'Language contact (JC)'
-      - 'Sociolinguistic fieldwork (BK)' #7
-      - 'Australian English (JC)'
-      - 'Interaction and identity (JC)' #8
-      - 'Language attitudes (JC)'
-      - 'Style and sociolinguistic variation (BK)' #9
-      - 'Test'
-      - 'Multilingualism (BK)' #10
-      - 'Cross-cultural variation (BK)'
-      - 'Cross-cultural policy outcomes (BK)' #11
-      - 'Literacy (BK)'
-      - 'Names and naming (BK)' #12
-      - 'Writing up research (BK)'
-      
   oosd_lecture:
     prefix: 'Lecture '
     num_after_prefix: true
