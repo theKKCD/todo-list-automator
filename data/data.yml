@@ -13,9 +13,6 @@ subjects:
     name: Obj. Oriented Software Design
     project_id: 2241095301
   
-  - code: mast20026
-    name: Real Analysis
-    project_id: 2241095303
   
 # A map of tasks per week of day
 # A task has the following form:
@@ -31,19 +28,11 @@ subjects:
 
 tasks:
   monday:
-    - subject: mast20026
-      name: Prerecorded Lecture
-      time: 2:15pm
-
     - subject: elen20005
       name: Live Concepts/Intuition Lecture
       time: 3:15pm
   
   tuesday:
-    - subject: mast20026
-      name: Tutorial A
-      time: 10:00am
-
     - subject: elen20005
       name: Prerecorded Lecture
       time: 11:00am
@@ -53,17 +42,19 @@ tasks:
     - subject: elen20005
       name: Quiz
       time: 3:15pm
-      weeks: [5,7,9,10,12]
+      weeks: [6,7,9,10,12]
 
   wednesday:
-    - subject: mast20026
-      name: Prerecorded Lecture
-      time: 9:00am
-
     - subject: elen20005
       name: Prerecorded Lecture
       time: 11:00am
       weeks: [3]
+      exclude_weeks: true
+
+    - subject: elen20005
+      name: Take-5 Pre-Lab Safety Quiz
+      time: 12:00pm
+      weeks: [1,2,3]
       exclude_weeks: true
 
     - subject: elen20005
@@ -74,10 +65,6 @@ tasks:
 
 
   thursday:
-    - subject: mast20026
-      name: Tutorial B
-      time: 10:00am
-
     - subject: swen20003
       name: Practical
       time: 1:00pm
@@ -99,10 +86,6 @@ tasks:
       exclude_weeks: True
 
   friday:
-    - subject: mast20026
-      name: Prerecorded Lecture
-      time: 10:00am
-
     - subject: elen20005
       name: Live Examples Lecture
       time: 2:15pm
