@@ -12,6 +12,10 @@ subjects:
   - code: swen20003
     name: Obj. Oriented Software Design
     project_id: 2241095301
+
+  - code: musi20150
+    name: Music & Health
+    project_id: 2242734439
   
   
 # A map of tasks per week of day
@@ -28,6 +32,13 @@ subjects:
 
 tasks:
   monday:
+    - subject: musi20150
+      name: Weekly Quiz
+      time: 9am
+      due_day: Next Monday
+      weeks: [12]
+      exclude_weeks: true
+
     - subject: elen20005
       name: Live Concepts/Intuition Lecture
       time: 3:15pm
