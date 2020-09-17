@@ -42,6 +42,14 @@ tasks:
     - subject: elen20005
       name: Live Concepts/Intuition Lecture
       time: 3:15pm
+      weeks: [8]
+      exclude_weeks: true
+
+    - subject: elen20005
+      name: Midsem Test
+      time: 3:25pm
+      weeks: [8]
+      priority: 4
   
   tuesday:
     - subject: elen20005
@@ -129,7 +137,7 @@ task_name_generators:
       - 'Inheritance II'
       - 'Interfaces' #6
       - 'Revision'
-      - 'Mid-Semester Test' #7
+      - '' #7
       - 'Class Diagrams'
       - 'Generics' #8
       - 'Collections and Maps'
