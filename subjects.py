@@ -201,6 +201,6 @@ def name_factory_factory(info: Dict) -> Callable[[int, datetime, str], str]:
                 * (len(info.get('days_of_week', '1'))) \
                 + incr
         class_number: int = idx + 1 - info['list'][:idx].count('');
-        return f"{info.get('prefix','').strip()}{' '+str(class_number) if info.get('num_after_prefix') else ''} - {info['list'][idx]}{today.strftime(', %a %d %B') if info.get('use_date') else ''}" \
+        return f"{info.get('prefix','').strip()}{' '+str(class_number) if info.get('num_after_prefix') else ''} - _{info['list'][idx]}_{today.strftime(', %a %d %B') if info.get('use_date') else ''}" \
             if info['list'][idx] else ''
     return func
