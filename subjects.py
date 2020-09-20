@@ -130,8 +130,9 @@ class Task:
     def api_add_task(self: Task, api: TodoistAPI, current_week: int, timezone_name: str) -> defaultdict[str, List[str]]:
         """Adds tasks to the API, and recursively adds the subtasks of a given task."""
         added_tasks: defaultdict[str, List[str]] = defaultdict(list)
+        task_name: str = self.get_name()
 
-        if not self.is_in_week(current_week):
+        if not self.is_in_week(current_week) or not task_name:
             return
 
         api_kwargs: Dict = {
@@ -152,8 +153,7 @@ class Task:
         
         if self.__section_id > 0:
             api_kwargs['section_id'] = self.__section_id
-        
-        task_name: str = self.get_name()
+
         task_added = api.items.add( task_name, **api_kwargs )
         self.api_id = str(task_added.data["id"])
         added_tasks[self.subject.code].append(f"'{task_name}' due {self.get_due()}")
@@ -188,14 +188,19 @@ def read_yml_data(data_yml_location: str, semester: Semester) -> Tuple[Dict[str,
 
 def name_factory_factory(info: Dict) -> Callable[[int, datetime, str], str]:
     def func(current_week: int, today: datetime, due_day: str = '') -> str:
-        due_day: str = due_day.lower() or today.strftime("%A").lower()
-        due_next_week: bool = int(datetime.strptime(due_day.title(), '%A').strftime('%w')) <= int(today.strftime('%w').lower())
+        new_due_day: str = (due_day or today.strftime("%A")).lower().replace('next', '').strip()
+        due_next_week: bool = \
+            'next' in due_day.lower() \
+            or int(today.strftime('%w').lower()) >= int(datetime.strptime(new_due_day.title(), '%A').strftime('%w'))
+        incr: int
         try:
-            incr: int = [day.lower() for day in info.get('days_of_week')].index(due_day)
+            incr = [day.lower() for day in info.get('days_of_week')].index(new_due_day)
         except ValueError:
-            incr: int = 0
+            incr = 0
         idx: int = (current_week - 1 + int(due_next_week)) \
                 * (len(info.get('days_of_week', '1'))) \
                 + incr
-        return f"{info.get('prefix','').strip()}{' '+str(idx+1) if info.get('num_after_prefix') else ''} - {info['list'][idx]}{today.strftime(', %a %d %B') if info.get('use_date') else ''}"
+        class_number: int = idx + 1 - info['list'][:idx].count('');
+        return f"{info.get('prefix','').strip()}{' '+str(class_number) if info.get('num_after_prefix') else ''} - {info['list'][idx]}{today.strftime(', %a %d %B') if info.get('use_date') else ''}" \
+            if info['list'][idx] else ''
     return func
