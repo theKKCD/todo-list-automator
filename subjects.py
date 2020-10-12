@@ -3,6 +3,7 @@ from typing import Dict, List, Callable, Tuple, Union
 
 from datetime import datetime, tzinfo
 from collections import defaultdict
+from string import Template
 
 from helpers import *
 from semester import Semester
@@ -72,12 +73,15 @@ class Task:
 
     def get_name(self) -> str:
         today: datetime = get_timezone_details()[1]
+        current_week: int = self.subject.semester.get_current_week(today)
         if self.__name_func is not None:
-            current_week = self.subject.semester.get_current_week(today)
             return self.__name_func(current_week, today, self.__due[0].replace('Today', ''))
-        name: str = self.__task_name or "Class"
-        if self.__due[0] == 'Today':
-            name += f', {today.strftime("%a %d %B")}'
+        mapping: Dict[str, str] = {
+            'week': str(current_week),
+            'nextweek': str(current_week+1),
+            'date': today.strftime("%a %d %B")
+        }
+        name: str = Template(self.__task_name).safe_substitute(mapping) if self.__task_name else "Class"
         return name
     
     def get_due(self) -> str:

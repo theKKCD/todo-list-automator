@@ -46,6 +46,7 @@ def main(*args, **kwargs):
     response = api.commit()
     return {
         "today": today.strftime("%A"),
+        "week": current_week,
         "added_tasks": added_tasks,
         # "api_response": response
     }

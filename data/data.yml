@@ -29,21 +29,33 @@ subjects:
 #   priority:       (int. 1 is lowest, 4 is highest)
 #   name_generator: (string. identifier of `name_list` used as  generator)
 #   subtasks:       (list of tasks)
+#
+# The name of a task can be a template string, using the following
+#   $week     | current week number
+#   $nextweek | next week number
+#   $date     | today's date in the format Mon 12 October
+#
+# Todoist also supports simple markdown formatting, such as *italics*, **bold** and [hyperlinks](example.com).
 
 tasks:
   monday:
     - subject: musi20150
-      name: Weekly Quiz
+      name: Week $week Quiz
       time: 9am
       due_day: Next Monday
       weeks: [12]
       exclude_weeks: true
 
     - subject: elen20005
-      name: Live Concepts/Intuition Lecture
+      name: Week $week Intuition/Concepts Class
       time: 3:15pm
       weeks: [8]
       exclude_weeks: true
+    
+    - subject: elen20005
+      name: Workshop $week Pre-Lab
+      due_day: Wednesday
+      time: 12:00pm
 
     - subject: elen20005
       name: Midsem Test
@@ -53,35 +65,22 @@ tasks:
   
   tuesday:
     - subject: elen20005
-      name: Prerecorded Lecture
-      time: 11:00am
-      weeks: [3]
-      exclude_weeks: true
-
-    - subject: elen20005
       name: Quiz
       time: 3:15pm
       weeks: [6,7,9,10,12]
 
   wednesday:
     - subject: elen20005
-      name: Prerecorded Lecture
-      time: 11:00am
-      weeks: [3]
-      exclude_weeks: true
-
-    - subject: elen20005
-      name: Take-5 Pre-Lab Safety Quiz
+      name: Take-5 Risk Assessment for Workshop $week 
       time: 12:00pm
       weeks: [1,2,3]
       exclude_weeks: true
 
     - subject: elen20005
-      name: Workshop
-      time: 3:15pm
+      name: Workshop $week
+      time: 2:00pm
       weeks: [1, 2]
       exclude_weeks: true
-
 
   thursday:
     - subject: swen20003
@@ -106,7 +105,7 @@ tasks:
 
   friday:
     - subject: elen20005
-      name: Live Examples Lecture
+      name: Week $week Examples Class
       time: 2:15pm
     
 
@@ -145,7 +144,7 @@ task_name_generators:
       - 'Design Patterns 2' 
       - 'Exceptions' #10
       - 'Software Testing and Design'
-      - 'Asynchronous Programing' #11
-      - 'Advanced Java Concepts'
+      - '' #Asynchronous Programing' #11
+      - '' #'Advanced Java Concepts'
       - 'Revision' #12
       - 'Wrapup - Exam'
