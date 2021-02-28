@@ -40,7 +40,7 @@ class Subject:
                     for subject_dict in yml_data_subjects)
 
 class Task:  
-    def __init__(self, subject: Subject, time: str, due_day: str ='', name: str = '', weeks: List[int] = [],
+    def __init__(self, subject: Subject, time: str = '', due_day: str ='', name: str = '', weeks: List[int] = [],
                  exclude_weeks: bool = False, priority: int = 1, name_func: Callable[[int, datetime, str], str] = None,
                  subtasks: List[Task] = [], section_id: int = 0) -> None:
         self.subject: Subject = subject
@@ -193,9 +193,10 @@ def read_yml_data(data_yml_location: str, semester: Semester) -> Tuple[Dict[str,
 def name_factory_factory(info: Dict) -> Callable[[int, datetime, str], str]:
     def func(current_week: int, today: datetime, due_day: str = '') -> str:
         new_due_day: str = (due_day or today.strftime("%A")).lower().replace('next', '').strip()
-        due_next_week: bool = \
-            'next' in due_day.lower() \
-            or int(today.strftime('%w').lower()) >= int(datetime.strptime(new_due_day.title(), '%A').strftime('%w'))
+        due_next_week: bool = False
+        # if this day of week is after the given due day of week
+        if 'next' in due_day.lower() or int(today.strftime('%w').lower()) < int(datetime.strptime(new_due_day.title(), '%A').strftime('%w')):
+            due_next_week = True
         incr: int
         try:
             incr = [day.lower() for day in info.get('days_of_week')].index(new_due_day)
@@ -205,6 +206,7 @@ def name_factory_factory(info: Dict) -> Callable[[int, datetime, str], str]:
                 * (len(info.get('days_of_week', '1'))) \
                 + incr
         class_number: int = idx + 1 - info['list'][:idx].count('');
-        return f"{info.get('prefix','').strip()}{' '+str(class_number) if info.get('num_after_prefix') else ''} - _{info['list'][idx]}_{today.strftime(', %a %d %B') if info.get('use_date') else ''}" \
-            if info['list'][idx] else ''
+        if info['list'][idx]:
+            return f"{info.get('prefix','').strip()}{' '+str(class_number) if info.get('num_after_prefix') else ''} - _{info['list'][idx]}_{today.strftime(', %a %d %B') if info.get('use_date') else ''}"
+        else: return ''
     return func

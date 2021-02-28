@@ -5,17 +5,21 @@
 #   project_id: (int) // from Todoist API
 
 subjects:
-  - code: elen20005
-    name: FoEN
-    project_id: 2241095310
-  
-  - code: swen20003
-    name: Obj. Oriented Software Design
-    project_id: 2241095301
+  - code: engr20004
+    name: Mechanics
+    project_id: 2259446996
 
-  - code: musi20150
-    name: Music & Health
-    project_id: 2242734439
+  - code: elen30014
+    name: ADEC
+    project_id: 2259446992
+
+  - code: comp30023
+    name: Computer Systems
+    project_id: 2259447003
+
+  - code: comp30024
+    name: Artificial Intelligence
+    project_id: 2259447018
   
   
 # A map of tasks per week of day
@@ -39,75 +43,102 @@ subjects:
 
 tasks:
   monday:
-    - subject: musi20150
-      name: Week $week Quiz
-      time: 9am
+    - subject: engr20004
+      name: Week $week Videos
       due_day: Next Monday
+
+    - subject: engr20004
+      name: '[Quiz $week](https://canvas.lms.unimelb.edu.au/courses/107821/quizzes)'
+      due_day: Next Monday
+      priority: 2
+      time: 9am
       weeks: [12]
       exclude_weeks: true
 
-    - subject: elen20005
-      name: Week $week Intuition/Concepts Class
-      time: 3:15pm
-      weeks: [8]
+    - subject: engr20004
+      name: Week $week Examples Lecture
+      time: 12pm
+      weeks: [1]
       exclude_weeks: true
-    
-    - subject: elen20005
-      name: Workshop $week Pre-Lab
-      due_day: Wednesday
-      time: 12:00pm
 
-    - subject: elen20005
-      name: Midsem Test
-      time: 3:25pm
-      weeks: [8]
-      priority: 4
+    - subject: engr20004
+      name: Week $week Welcome Lecture
+      time: 12pm
+      weeks: [1]
+      exclude_weeks: true
+
+    - subject: comp30024
+      name: Workshop Week $week
+      time: 2:15pm
+      weeks: [1]
+      exclude_weeks: true
   
   tuesday:
-    - subject: elen20005
-      name: Quiz
-      time: 3:15pm
-      weeks: [6,7,9,10,12]
+    - subject: elen30014
+      time: 4:15pm
+      name_generator: adec_lecture
+
+    - subject: comp30023
+      name: Lecture, $date
+      time: 4:15pm
+
+    - subject: comp30024
+      name: Lecture, $date
+      time: 12pm
 
   wednesday:
-    - subject: elen20005
-      name: Take-5 Risk Assessment for Workshop $week 
-      time: 12:00pm
-      weeks: [1,2,3]
+    - subject: elen30014
+      time: 9:00am
+      name_generator: adec_lecture
+
+    - subject: engr20004
+      name: Week $week Q&A Lecture
+      time: 3:15pm
+      weeks: [1]
       exclude_weeks: true
 
-    - subject: elen20005
+    - subject: elen30014
       name: Workshop $week
-      time: 2:00pm
-      weeks: [1, 2]
+      time: 12:00pm
+      weeks: [1]
       exclude_weeks: true
 
   thursday:
-    - subject: swen20003
-      name: Practical
-      time: 1:00pm
+    - subject: engr20004
+      name: Tutorial, Week $week
+      time: 10am
       weeks: [1]
-      exclude_weeks: True
+      exclude_weeks: true
 
-    - subject: swen20003
-      time: 11:00am
-      due_day: Monday
-      name_generator: oosd_lecture
-      weeks: [12]
-      exclude_weeks: True
+    - subject: comp30024
+      name: Lecture, $date
+      time: 12pm
 
-    - subject: swen20003
+    - subject: comp30023
+      name: Tutorial $week
       time: 2:15pm
-      due_day: Wednesday
-      name_generator: oosd_lecture
-      weeks: [12]
-      exclude_weeks: True
+      weeks: [1]
+      exclude_weeks: true
+
+    - subject: comp30023
+      name: Practical $week
+      time: 3:15pm
 
   friday:
-    - subject: elen20005
-      name: Week $week Examples Class
-      time: 2:15pm
-    
+    - subject: elen30014
+      time: 9:00am
+      name_generator: adec_lecture
+
+    - subject: comp30023
+      name: Lecture, $date
+      time: 4:15pm
+
+    - subject: elen30014
+      name: Pre-Workshop Component (Workshop $week)
+      due_day: Wednesday
+      time: 9am
+      priority: 2
+      weeks: [1, 3, 6, 8, 10, 11]
 
   saturday: []
     # -
@@ -116,35 +147,48 @@ tasks:
     # -
 
 task_name_generators:
-  oosd_lecture:
+  adec_lecture:
     prefix: 'Lecture '
     num_after_prefix: true
     use_date: false
     days_of_week:
-      - monday
+      - tuesday
       - wednesday
+      - friday
     list: # List of ALL weeks
-      - 'Subject Introduction' #1
-      - 'Java ‐ A Quick Tour'
-      - 'Classes and Objects 1' #2
-      - 'Classes and Objects 2'
-      - 'Classes and Objects 3' #3 sunday
-      - 'Arrays and Strings'
-      - 'Input and Output' #4
-      - 'Software Tools/Bagel'
-      - 'Inheritance I' #5
-      - 'Inheritance II'
-      - 'Interfaces' #6
-      - 'Revision'
-      - '' #7
-      - 'Class Diagrams'
-      - 'Generics' #8
-      - 'Collections and Maps'
-      - 'Design Patterns 1' #9
-      - 'Design Patterns 2' 
-      - 'Exceptions' #10
-      - 'Software Testing and Design'
-      - '' #Asynchronous Programing' #11
-      - '' #'Advanced Java Concepts'
-      - 'Revision' #12
-      - 'Wrapup - Exam'
+      - 'Introduction' #1
+      - 'Transient Analysis of LTI Systems (1st Order)'
+      - 'Transient Analysis of LTI Systems (1st Order)'
+      - 'Transient Analysis of LTI Systems (2nd Order)' #2
+      - 'Transient Analysis of LTI Systems (2nd Order)'
+      - 'Transient Analysis of LTI Systems (2nd Order)'
+      - 'Convolution Integral I' #3 
+      - 'Convolution Integral II'
+      - 'Frequency-Domain Circuit Analysis & Laplace Transform'
+      - 'Frequency-Domain Circuit Analysis & Laplace Transform' #4
+      - 'Frequency-Domain Circuit Analysis & Laplace Transform'
+      - 'Frequency-Domain Circuit Analysis & Laplace Transform'
+      - 'Frequency-Domain Circuit Analysis & Laplace Transform' #5
+      - 'Frequency Selective Circuits : High Pass / Low Pass Filters'
+      - '' # No lecture friday before break
+      - 'Frequency Selective Circuits : High Pass / Low Pass Filters' #6
+      - 'Frequency Selective Circuits : High Pass / Low Pass Filters'
+      - 'Frequency Selective Circuits : Bandpass / Bandreject Filters'
+      - 'Frequency Selective Circuits : Bandpass / Bandreject Filters' #7
+      - 'MST Review / Examples'
+      - '' # Mid-Sem Test
+      - 'Frequency Selective Circuits : Bode plots' #8
+      - 'Two-port networks'
+      - 'Two-port networks'
+      - 'Two-port networks' #9
+      - 'Quantifying and encoding information'
+      - 'Digital Data Processing' 
+      - 'Realisation of elementary combinational logic' #10
+      - 'Combinational logic synthesis'
+      - 'Feedback and Memory'
+      - 'Sequential Logic' #11
+      - 'Counters'
+      - 'Finite State Machines'
+      - 'Finite State Machines - Implementation' #12
+      - 'PLDs and Applications'
+      - 'Summary'
