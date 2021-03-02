@@ -65,7 +65,6 @@ tasks:
       name: Week $week Welcome Lecture
       time: 12pm
       weeks: [1]
-      exclude_weeks: true
 
     - subject: comp30024
       name: Workshop Week $week
