@@ -44,18 +44,6 @@ subjects:
 tasks:
   monday:
     - subject: engr20004
-      name: Week $week Videos
-      due_day: Next Monday
-
-    - subject: engr20004
-      name: '[Quiz $week](https://canvas.lms.unimelb.edu.au/courses/107821/quizzes)'
-      due_day: Next Monday
-      priority: 2
-      time: 9am
-      weeks: [12]
-      exclude_weeks: true
-
-    - subject: engr20004
       name: Week $week Examples Lecture
       time: 12pm
       weeks: [1]
@@ -73,13 +61,26 @@ tasks:
       exclude_weeks: true
   
   tuesday:
+    - subject: engr20004
+      name: Week $week Videos
+      due_day: Next Tuesday
+
+    - subject: engr20004
+      name: '[Quiz $week](https://canvas.lms.unimelb.edu.au/courses/107821/quizzes)'
+      due_day: Next Tuesday
+      priority: 2
+      time: 9am
+      weeks: [12]
+      exclude_weeks: true
+
     - subject: elen30014
       time: 4:15pm
       name_generator: adec_lecture
+      section_id: 40320624
 
     - subject: comp30023
-      name: Lecture, $date
-      time: 4:15pm
+      name: Week $week, Lecture 1
+      due_day: Next Monday
 
     - subject: comp30024
       name: Lecture, $date
@@ -89,6 +90,7 @@ tasks:
     - subject: elen30014
       time: 9:00am
       name_generator: adec_lecture
+      section_id: 40320624
 
     - subject: engr20004
       name: Week $week Q&A Lecture
@@ -101,6 +103,10 @@ tasks:
       time: 12:00pm
       weeks: [1]
       exclude_weeks: true
+      
+    - subject: comp30023
+      name: Week $week, Lecture 2
+      time: Next Monday
 
   thursday:
     - subject: engr20004
@@ -127,13 +133,11 @@ tasks:
     - subject: elen30014
       time: 9:00am
       name_generator: adec_lecture
+      section_id: 40320624
 
-    - subject: comp30023
-      name: Lecture, $date
-      time: 4:15pm
 
     - subject: elen30014
-      name: Pre-Workshop Component (Workshop $week)
+      name: [Pre-Workshop Component (Workshop $week)](https://canvas.lms.unimelb.edu.au/courses/107836/modules/513447)
       due_day: Wednesday
       time: 9am
       priority: 2
