@@ -37,6 +37,7 @@ subjects:
 # The name of a task can be a template string, using the following
 #   $week     | current week number
 #   $nextweek | next week number
+#   $prevweek | the previous week number
 #   $date     | today's date in the format Mon 12 October
 #
 # Todoist also supports simple markdown formatting, such as *italics*, **bold** and [hyperlinks](example.com).
@@ -99,7 +100,7 @@ tasks:
       exclude_weeks: true
 
     - subject: elen30014
-      name: Workshop $week
+      name: Workshop $prevweek
       time: 12:00pm
       weeks: [1]
       exclude_weeks: true

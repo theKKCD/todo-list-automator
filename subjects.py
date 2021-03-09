@@ -79,6 +79,7 @@ class Task:
         mapping: Dict[str, str] = {
             'week': str(current_week),
             'nextweek': str(current_week+1),
+            'prevweek': str(current_week-1),
             'date': today.strftime("%a %d %B")
         }
         name: str = Template(self.__task_name).safe_substitute(mapping) if self.__task_name else "Class"
