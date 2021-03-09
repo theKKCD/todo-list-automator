@@ -103,10 +103,10 @@ tasks:
       time: 12:00pm
       weeks: [1]
       exclude_weeks: true
-      
+
     - subject: comp30023
       name: Week $week, Lecture 2
-      time: Next Monday
+      due_day: Next Monday
 
   thursday:
     - subject: engr20004
@@ -130,18 +130,17 @@ tasks:
       time: 3:15pm
 
   friday:
-    - subject: elen30014
-      time: 9:00am
-      name_generator: adec_lecture
-      section_id: 40320624
-
-
-    - subject: elen30014
-      name: [Pre-Workshop Component (Workshop $week)](https://canvas.lms.unimelb.edu.au/courses/107836/modules/513447)
+    - subject: 'elen30014'
+      name: "[Pre-Workshop Component (Workshop $week)](https://canvas.lms.unimelb.edu.au/courses/107836/modules/513447)"
       due_day: Wednesday
       time: 9am
       priority: 2
       weeks: [1, 3, 6, 8, 10, 11]
+
+    - subject: elen30014
+      time: 9:00am
+      name_generator: adec_lecture
+      section_id: 40320624
 
   saturday: []
     # -

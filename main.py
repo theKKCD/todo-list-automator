@@ -43,6 +43,7 @@ def main(*args, **kwargs):
             for subject_code, tasks in task_dict.items():
                 added_tasks[subject_code] += tasks
         
+    print(added_tasks)
     response = api.commit()
     return {
         "today": today.strftime("%A"),
