@@ -151,8 +151,8 @@ tasks:
 
 task_name_generators:
   adec_lecture:
-    prefix: 'Lecture '
-    num_after_prefix: true
+    prefix: 'Lecture'
+    num_after_prefix: false
     use_date: false
     days_of_week:
       - tuesday
@@ -160,38 +160,38 @@ task_name_generators:
       - friday
     list: # List of ALL weeks
       - 'Introduction' #1
-      - 'Transient Analysis of LTI Systems (1st Order)'
-      - 'Transient Analysis of LTI Systems (1st Order)'
-      - 'Transient Analysis of LTI Systems (2nd Order)' #2
-      - 'Transient Analysis of LTI Systems (2nd Order)'
-      - 'Transient Analysis of LTI Systems (2nd Order)'
-      - 'Convolution Integral I' #3 
-      - 'Convolution Integral II'
-      - 'Frequency-Domain Circuit Analysis & Laplace Transform'
-      - 'Frequency-Domain Circuit Analysis & Laplace Transform' #4
-      - 'Frequency-Domain Circuit Analysis & Laplace Transform'
-      - 'Frequency-Domain Circuit Analysis & Laplace Transform'
-      - 'Frequency-Domain Circuit Analysis & Laplace Transform' #5
-      - 'Frequency Selective Circuits : High Pass / Low Pass Filters'
+      - 'A01 Transient Analysis of LTI Systems (1st Order)'
+      - 'A02 Transient Analysis of LTI Systems (1st Order)'
+      - 'A03 Transient Analysis of LTI Systems (2nd Order)' #2
+      - 'A04 Transient Analysis of LTI Systems (2nd Order)'
+      - 'A05 Transient Analysis of LTI Systems (2nd Order)'
+      - 'A06 Convolution Integral I' #3 
+      - 'A07 Convolution Integral II'
+      - 'A08 Frequency-Domain Circuit Analysis & Laplace Transform'
+      - 'A09 Frequency-Domain Circuit Analysis & Laplace Transform' #4
+      - 'A10 Frequency-Domain Circuit Analysis & Laplace Transform'
+      - 'A11 Frequency-Domain Circuit Analysis & Laplace Transform'
+      - 'A12 Frequency-Domain Circuit Analysis & Laplace Transform' #5
+      - 'A13 Frequency Selective Circuits : High Pass / Low Pass Filters'
       - '' # No lecture friday before break
-      - 'Frequency Selective Circuits : High Pass / Low Pass Filters' #6
-      - 'Frequency Selective Circuits : High Pass / Low Pass Filters'
-      - 'Frequency Selective Circuits : Bandpass / Bandreject Filters'
-      - 'Frequency Selective Circuits : Bandpass / Bandreject Filters' #7
+      - 'A14 Frequency Selective Circuits : High Pass / Low Pass Filters' #6
+      - 'A15 Frequency Selective Circuits : High Pass / Low Pass Filters'
+      - 'A16 Frequency Selective Circuits : Bandpass / Bandreject Filters'
+      - 'A17 Frequency Selective Circuits : Bandpass / Bandreject Filters' #7
       - 'MST Review / Examples'
       - '' # Mid-Sem Test
-      - 'Frequency Selective Circuits : Bode plots' #8
-      - 'Two-port networks'
-      - 'Two-port networks'
-      - 'Two-port networks' #9
-      - 'Quantifying and encoding information'
-      - 'Digital Data Processing' 
-      - 'Realisation of elementary combinational logic' #10
-      - 'Combinational logic synthesis'
-      - 'Feedback and Memory'
-      - 'Sequential Logic' #11
-      - 'Counters'
-      - 'Finite State Machines'
-      - 'Finite State Machines - Implementation' #12
-      - 'PLDs and Applications'
+      - 'A18 Frequency Selective Circuits : Bode plots' #8
+      - 'A19 Two-port networks'
+      - 'A20 Two-port networks'
+      - 'A21 Two-port networks' #9
+      - 'D01 Quantifying and encoding information'
+      - 'D02 Digital Data Processing' 
+      - 'D03 Realisation of elementary combinational logic' #10
+      - 'D04 Combinational logic synthesis'
+      - 'D05 Feedback and Memory'
+      - 'D06 Sequential Logic' #11
+      - 'D07 Counters'
+      - 'D08 Finite State Machines'
+      - 'D09 Finite State Machines - Implementation' #12
+      - 'D10 PLDs and Applications'
       - 'Summary'
