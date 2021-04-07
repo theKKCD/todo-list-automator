@@ -49,6 +49,7 @@ tasks:
       time: 12pm
       weeks: [1]
       exclude_weeks: true
+      section_id: 43950298
 
     - subject: engr20004
       name: Week $week Welcome Lecture
@@ -65,6 +66,7 @@ tasks:
     - subject: engr20004
       name: Week $week Videos
       due_day: Next Tuesday
+      section_id: 43950304
 
     - subject: engr20004
       name: '[Quiz $week](https://canvas.lms.unimelb.edu.au/courses/107821/quizzes)'
@@ -73,6 +75,7 @@ tasks:
       time: 9am
       weeks: [12]
       exclude_weeks: true
+      section_id: 43950063
 
     - subject: elen30014
       time: 4:15pm
@@ -82,10 +85,12 @@ tasks:
     - subject: comp30023
       name: Week $week, Lecture 1
       due_day: Next Monday
+      section_id: 43950342
 
     - subject: comp30024
       name: Lecture, $date
       time: 12pm
+      section_id: 43950102
 
   wednesday:
     - subject: elen30014
@@ -98,6 +103,7 @@ tasks:
       time: 3:15pm
       weeks: [1]
       exclude_weeks: true
+      section_id: 43950298
 
     - subject: elen30014
       name: Workshop $prevweek
@@ -108,6 +114,7 @@ tasks:
     - subject: comp30023
       name: Week $week, Lecture 2
       due_day: Next Monday
+      section_id: 43950342
 
   thursday:
     - subject: engr20004
@@ -119,6 +126,7 @@ tasks:
     - subject: comp30024
       name: Lecture, $date
       time: 12pm
+      section_id: 43950102
 
     - subject: comp30023
       name: Tutorial $week
