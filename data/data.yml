@@ -85,11 +85,15 @@ tasks:
     - subject: comp30023
       name: Week $week, Lecture 1
       due_day: Next Monday
+      weeks: [6]
+      exclude_weeks: true
       section_id: 43950342
 
     - subject: comp30024
       name: Lecture, $date
       time: 12pm
+      weeks: [6]
+      exclude_weeks: true
       section_id: 43950102
 
   wednesday:
