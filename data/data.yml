@@ -70,7 +70,7 @@ tasks:
 
     - subject: engr20004
       name: '[Quiz $week](https://canvas.lms.unimelb.edu.au/courses/107821/quizzes)'
-      due_day: Next Tuesday
+      due_day: Next Friday
       priority: 2
       time: 9am
       weeks: [12]
