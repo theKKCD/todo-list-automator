@@ -84,7 +84,7 @@ tasks:
 
     - subject: comp30023
       name: Week $week, Lecture 1
-      due_day: Next Monday
+      due_day: Today
       weeks: [6]
       exclude_weeks: true
       section_id: 43950342
@@ -114,11 +114,6 @@ tasks:
       time: 12:00pm
       weeks: [1]
       exclude_weeks: true
-
-    - subject: comp30023
-      name: Week $week, Lecture 2
-      due_day: Next Monday
-      section_id: 43950342
 
   thursday:
     - subject: engr20004
@@ -154,6 +149,11 @@ tasks:
       time: 9:00am
       name_generator: adec_lecture
       section_id: 40320624
+
+    - subject: comp30023
+      name: Week $week, Lecture 2
+      due_day: Today
+      section_id: 43950342
 
   saturday: []
     # -
